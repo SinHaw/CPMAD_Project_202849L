@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Home.dart';
 import 'Registration.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -121,12 +120,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Text(
                             "Login",
-                            style: GoogleFonts.oswald(
-                                fontSize: 55, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "Please Sign in to continue",
-                            style: GoogleFonts.lato(fontSize: 15),
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           )
                         ],
                       ),

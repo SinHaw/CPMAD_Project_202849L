@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "127696107351",
-    "project_id": "cpmad-project-574d7",
-    "storage_bucket": "cpmad-project-574d7.appspot.com"
+    "project_number": "350902268501",
+    "project_id": "cpmad-97e1a",
+    "storage_bucket": "cpmad-97e1a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:127696107351:android:d83cf3d0b92f2c58d83012",
+        "mobilesdk_app_id": "1:350902268501:android:54dcb75eed48ea4b749adc",
         "android_client_info": {
           "package_name": "com.example.flutterproject"
         }
       },
       "oauth_client": [
         {
-          "client_id": "127696107351-o1p7b2g7gjk5n3pekitd8nuiqj2gi18s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.flutterproject",
-            "certificate_hash": "660134c1865463994acd36cb4a70480bd99cb85b"
-          }
-        },
-        {
-          "client_id": "127696107351-1jn40n3mrpvahaft98satdidvlab60fq.apps.googleusercontent.com",
+          "client_id": "350902268501-jumhvibji1rtbmhcbh389muqprm8d33c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDGMh3yz_ibdRmql0s2GhZJeHDiJiNQqUU"
+          "current_key": "AIzaSyD4n0LFO_FdLNdZE3GhiTLf13C_x3xXk7U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "127696107351-1jn40n3mrpvahaft98satdidvlab60fq.apps.googleusercontent.com",
+              "client_id": "350902268501-jumhvibji1rtbmhcbh389muqprm8d33c.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

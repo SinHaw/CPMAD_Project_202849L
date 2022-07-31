@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'Home.dart';
 import 'package:flutterproject/model/user_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RegistrationScreen extends StatefulWidget {
   RegistrationScreen({Key key}) : super(key: key);
@@ -180,11 +179,13 @@ class _RegistrationScreen extends State<RegistrationScreen> {
                         )),
                     Align(
                         alignment: Alignment.topLeft,
-                        child: Text("Create Account",
-                            style: GoogleFonts.oswald(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                            ))),
+                        child: Text(
+                          "Create Account",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        )),
                     SizedBox(height: 30),
                     NameField,
                     SizedBox(height: 20),
