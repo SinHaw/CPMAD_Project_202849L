@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterproject/screens/Profile.dart';
 import 'Home.dart';
 import 'package:flutterproject/model/user_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -232,6 +233,6 @@ class _RegistrationScreen extends State<RegistrationScreen> {
     await firebase.collection("users").doc(user.uid).set(UserModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully");
     Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => Home()), (route) => false);
+        MaterialPageRoute(builder: (context) => Profile()), (route) => false);
   }
 }

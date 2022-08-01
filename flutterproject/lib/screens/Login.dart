@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterproject/screens/Profile.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Home.dart';
 import 'Registration.dart';
@@ -186,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((user_id) => {
                 Fluttertoast.showToast(msg: "Login Successful"),
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Home()))
+                    MaterialPageRoute(builder: (context) => Profile()))
               })
           .catchError((error) {
         Fluttertoast.showToast(msg: error.message);
