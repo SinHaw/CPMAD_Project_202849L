@@ -1,11 +1,15 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, file_names, prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterproject/screens/Home.dart';
 import 'package:flutterproject/model/user_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChangeProfile extends StatefulWidget {
   ChangeProfile({Key key}) : super(key: key);
@@ -15,10 +19,13 @@ class ChangeProfile extends StatefulWidget {
 }
 
 class _ChangeProfileState extends State<ChangeProfile> {
+  String imageUrl;
+  PickedFile image;
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   final NameEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
+  final confirmPasswordEditingController = new TextEditingController();
   User user = FirebaseAuth.instance.currentUser;
   userModel loggedInUser = userModel();
 
@@ -67,6 +74,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
     final passwordField = TextFormField(
         autofocus: false,
         controller: passwordEditingController,
+        obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         validator: (value) {
           if (value.isEmpty) {
@@ -86,6 +94,29 @@ class _ChangeProfileState extends State<ChangeProfile> {
           prefixIcon: Icon(Icons.vpn_key),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ));
+    final confirmPasswordField = TextFormField(
+        autofocus: false,
+        controller: confirmPasswordEditingController,
+        obscureText: true,
+        validator: (value) {
+          if (confirmPasswordEditingController.text !=
+              passwordEditingController.text) {
+            return "Password don't match";
+          }
+          return null;
+        },
+        onSaved: (value) {
+          confirmPasswordEditingController.text = value;
+        },
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.vpn_key),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Confirm Password",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -119,17 +150,36 @@ class _ChangeProfileState extends State<ChangeProfile> {
             },
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(36.0),
-          child: Form(
-            key: _formKey,
-            child: Column(children: <Widget>[
-              NameField,
-              SizedBox(height: 20),
-              passwordField,
-              SizedBox(height: 15),
-              update,
-            ]),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(36.0),
+            child: Form(
+              key: _formKey,
+              child: Column(children: <Widget>[
+                GestureDetector(
+                  onTap: () async {
+                    uploadImage();
+                  },
+                  child: imageUrl == null
+                      ? CircleAvatar(
+                          radius: 100.0,
+                          child: Icon(Icons.photo_camera),
+                        )
+                      : CircleAvatar(
+                          radius: 100.0,
+                          backgroundImage: NetworkImage(imageUrl),
+                        ),
+                ),
+                SizedBox(height: 20),
+                NameField,
+                SizedBox(height: 20),
+                passwordField,
+                SizedBox(height: 20),
+                confirmPasswordField,
+                SizedBox(height: 15),
+                update,
+              ]),
+            ),
           ),
         ));
   }
@@ -148,17 +198,52 @@ class _ChangeProfileState extends State<ChangeProfile> {
   updateDetails() async {
     //call firestore and user model
     //send value
+    final _firebaseStorage = FirebaseStorage.instance;
 
+    if (image != null) {
+      var file = File(image.path);
+      var snapshot = await _firebaseStorage
+          .ref()
+          .child('images/' + NameEditingController.text)
+          .putFile(file);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      setState(() {
+        imageUrl = downloadUrl;
+      });
+    } else {
+      setState(() {
+        imageUrl = loggedInUser.imageUrl;
+      });
+    }
     FirebaseFirestore firebase = FirebaseFirestore.instance;
     User user = _auth.currentUser;
     userModel UserModel = userModel();
     UserModel.email = loggedInUser.email;
     UserModel.name = NameEditingController.text;
     UserModel.user_id = user.uid;
+    UserModel.imageUrl = imageUrl;
 
     await firebase.collection("users").doc(user.uid).update(UserModel.toMap());
     Fluttertoast.showToast(msg: "Details Updated successfully");
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => Home()), (route) => false);
+  }
+
+  uploadImage() async {
+    final _firebaseStorage = FirebaseStorage.instance;
+    final _imagePicker = ImagePicker();
+    image = await _imagePicker.getImage(source: ImageSource.gallery);
+    var file = File(image.path);
+
+    if (image != null) {
+      //Upload to Firebase
+      var snapshot = await _firebaseStorage.ref().child('Temp').putFile(file);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      setState(() {
+        imageUrl = downloadUrl;
+      });
+    } else {
+      print('No Image Path Received');
+    }
   }
 }

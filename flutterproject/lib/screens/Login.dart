@@ -107,13 +107,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                        height: 200,
-                        child: Image.asset(
-                          "images/Logo.jpg",
-                          fit: BoxFit.contain,
-                        )),
                     SizedBox(height: 25),
+                    CircleAvatar(
+                      radius: 100.0,
+                      backgroundImage: AssetImage("images/Logo.jpg"),
+                    ),
                     Align(
                       alignment: Alignment.topLeft,
                       child: Column(

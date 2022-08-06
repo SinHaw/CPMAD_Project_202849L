@@ -63,7 +63,14 @@ android {
 flutter {
     source '../..'
 }
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.android.gms:play-services-location:16.0.0'
+    }
+}
 
 dependencies {
+    
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
 }

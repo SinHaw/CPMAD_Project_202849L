@@ -1,7 +1,9 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new
 
 import 'package:flutter/material.dart';
+import 'package:flutterproject/screens/NearestBusStop.dart';
 import 'package:flutterproject/screens/Profile.dart';
+import 'package:location/location.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -11,6 +13,28 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var location = new Location();
+  LocationData userLocation;
+  Future<LocationData> _getLocation() async {
+    LocationData currentLocation;
+    try {
+      currentLocation = await location.getLocation();
+    } catch (e) {
+      currentLocation = null;
+    }
+    return currentLocation;
+  }
+
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _getLocation().then((value) {
+              setState(() {
+                userLocation = value;
+              });
+            }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +52,11 @@ class _HomeState extends State<Home> {
             children: [
               GestureDetector(
                 onTap: () {
+                  _getLocation().then((value) {
+                    setState(() {
+                      userLocation = value;
+                    });
+                  }).catchError((e) => print('${e.error}'));
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => Profile()));
                 },
@@ -42,6 +71,13 @@ class _HomeState extends State<Home> {
                 ),
               ),
               GestureDetector(
+                onTap: () {
+                  userLocation != null
+                      ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) =>
+                              BSLJsonParse(userLocation: userLocation)))
+                      : DoNothingAction();
+                },
                 child: Container(
                   decoration: new BoxDecoration(
                       color: Colors.lightBlue,

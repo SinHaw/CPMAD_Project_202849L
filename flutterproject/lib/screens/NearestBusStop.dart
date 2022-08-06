@@ -1,16 +1,18 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names, prefer_const_constructors, missing_return
 
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutterproject/httpservices.dart';
 import 'package:flutterproject/model/busStopLocation.dart';
+import 'package:flutterproject/model/bus.dart' as bus;
+import 'package:location/location.dart';
 
 class BSLJsonParse extends StatefulWidget {
-  BSLJsonParse({Key key}) : super(key: key);
+  final LocationData userLocation;
+  BSLJsonParse({Key key, this.userLocation}) : super(key: key);
 
   @override
   State<BSLJsonParse> createState() => _BSLJsonParseState();
-  final location = "1.4447, 103.7962";
 }
 
 class Debouncer {
@@ -29,12 +31,15 @@ class Debouncer {
 class _BSLJsonParseState extends State<BSLJsonParse> {
   final debouncer = Debouncer(msecond: 1000);
   List<Datum> _bsl;
+  List<bus.Datum> _BusService;
   bool _loading;
   @override
   void initState() {
     super.initState();
     _loading = true;
-    HttpService.getBusStop(widget.location).then((bsl) {
+    HttpService.getBusStop(
+            widget.userLocation.latitude, widget.userLocation.longitude)
+        .then((bsl) {
       setState(() {
         _bsl = bsl;
         _loading = false;
@@ -57,6 +62,12 @@ class _BSLJsonParseState extends State<BSLJsonParse> {
                 itemCount: null == _bsl ? 0 : _bsl.length,
                 itemBuilder: (context, index) {
                   Datum busStopLocation = _bsl[index];
+                  HttpService.getBus(busStopLocation.code).then((BusService) {
+                    setState(() {
+                      _BusService = BusService;
+                      _loading = false;
+                    });
+                  });
                   return Card(
                     child: Padding(
                       padding: EdgeInsets.all(10.0),
@@ -65,7 +76,7 @@ class _BSLJsonParseState extends State<BSLJsonParse> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Bus Code: ' + busStopLocation.code,
+                            'Bus Stop Code: ' + busStopLocation.code,
                             style:
                                 TextStyle(fontSize: 16.0, color: Colors.black),
                           ),

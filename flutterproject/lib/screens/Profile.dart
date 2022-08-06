@@ -43,9 +43,12 @@ class _ProfileState extends State<Profile> {
           Container(
             width: 200,
             height: 200,
-            child: CircleAvatar(
-              backgroundImage: AssetImage('images/superhero.jpg'),
-            ),
+            child: loggedInUser.imageUrl == "blank"
+                ? CircleAvatar(
+                    child: Icon(Icons.account_circle_rounded, size: 120))
+                : CircleAvatar(
+                    backgroundImage: NetworkImage(loggedInUser.imageUrl),
+                  ),
           ),
           SizedBox(height: 25),
           Row(

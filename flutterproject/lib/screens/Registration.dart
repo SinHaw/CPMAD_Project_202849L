@@ -1,10 +1,16 @@
 // ignore_for_file: file_names, prefer_const_constructors, non_constant_identifier_names, unnecessary_new, missing_return
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterproject/screens/Profile.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'Home.dart';
 import 'package:flutterproject/model/user_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,6 +23,9 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreen extends State<RegistrationScreen> {
+  String imageUrl;
+  PickedFile image;
+
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   final NameEditingController = new TextEditingController();
@@ -172,12 +181,25 @@ class _RegistrationScreen extends State<RegistrationScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                        height: 150,
-                        child: Image.asset(
-                          "images/Logo.jpg",
-                          fit: BoxFit.contain,
-                        )),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () async {
+                            uploadImage();
+                          },
+                          child: imageUrl == null
+                              ? CircleAvatar(
+                                  radius: 100.0,
+                                  child: Icon(Icons.photo_camera),
+                                )
+                              : CircleAvatar(
+                                  radius: 100.0,
+                                  backgroundImage: NetworkImage(imageUrl),
+                                ),
+                        )
+                      ],
+                    ),
                     Align(
                         alignment: Alignment.topLeft,
                         child: Text(
@@ -220,8 +242,23 @@ class _RegistrationScreen extends State<RegistrationScreen> {
   }
 
   postDetails() async {
-    //call firestore and user model
-    //send value
+    final _firebaseStorage = FirebaseStorage.instance;
+
+    if (image != null) {
+      var file = File(image.path);
+      var snapshot = await _firebaseStorage
+          .ref()
+          .child('images/' + NameEditingController.text)
+          .putFile(file);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      setState(() {
+        imageUrl = downloadUrl;
+      });
+    } else {
+      setState(() {
+        imageUrl = "blank";
+      });
+    }
 
     FirebaseFirestore firebase = FirebaseFirestore.instance;
     User user = _auth.currentUser;
@@ -229,10 +266,29 @@ class _RegistrationScreen extends State<RegistrationScreen> {
     UserModel.email = user.email;
     UserModel.name = NameEditingController.text;
     UserModel.user_id = user.uid;
+    UserModel.imageUrl = imageUrl;
 
     await firebase.collection("users").doc(user.uid).set(UserModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully");
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => Profile()), (route) => false);
+  }
+
+  uploadImage() async {
+    final _firebaseStorage = FirebaseStorage.instance;
+    final _imagePicker = ImagePicker();
+    image = await _imagePicker.getImage(source: ImageSource.gallery);
+    var file = File(image.path);
+
+    if (image != null) {
+      //Upload to Firebase
+      var snapshot = await _firebaseStorage.ref().child('Temp').putFile(file);
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+      setState(() {
+        imageUrl = downloadUrl;
+      });
+    } else {
+      print('No Image Path Received');
+    }
   }
 }
