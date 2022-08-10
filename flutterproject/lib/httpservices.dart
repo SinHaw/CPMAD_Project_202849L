@@ -29,7 +29,7 @@ class HttpService {
     try {
       final response = await http.get(Uri.parse(
           'https://tih-api.stb.gov.sg/transport/v1/bus_arrival/bus_stop/' +
-              buscode.toString() +
+              buscode +
               '?apikey=54HJhzzqEWXL3wEnE2akYp83ZuL6WIxm'));
       if (response.statusCode == 200) {
         final bus.Bus cp = bus.busFromJson(response.body);

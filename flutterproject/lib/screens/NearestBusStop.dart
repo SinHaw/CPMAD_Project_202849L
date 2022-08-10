@@ -4,7 +4,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutterproject/httpservices.dart';
 import 'package:flutterproject/model/busStopLocation.dart';
-import 'package:flutterproject/model/bus.dart' as bus;
+import 'package:flutterproject/screens/BusStop.dart';
+import 'package:flutterproject/screens/Profile.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 class BSLJsonParse extends StatefulWidget {
@@ -31,7 +33,6 @@ class Debouncer {
 class _BSLJsonParseState extends State<BSLJsonParse> {
   final debouncer = Debouncer(msecond: 1000);
   List<Datum> _bsl;
-  List<bus.Datum> _BusService;
   bool _loading;
   @override
   void initState() {
@@ -52,6 +53,14 @@ class _BSLJsonParseState extends State<BSLJsonParse> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_loading ? 'Loading...' : 'Bus Stop'),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            // passing this to our root
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: Container(
         padding: EdgeInsets.all(8.0),
@@ -62,35 +71,47 @@ class _BSLJsonParseState extends State<BSLJsonParse> {
                 itemCount: null == _bsl ? 0 : _bsl.length,
                 itemBuilder: (context, index) {
                   Datum busStopLocation = _bsl[index];
-                  HttpService.getBus(busStopLocation.code).then((BusService) {
-                    setState(() {
-                      _BusService = BusService;
-                      _loading = false;
-                    });
-                  });
                   return Card(
                     child: Padding(
                       padding: EdgeInsets.all(10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Bus Stop Code: ' + busStopLocation.code,
-                            style:
-                                TextStyle(fontSize: 16.0, color: Colors.black),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Bus Stop Code: ' + busStopLocation.code,
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.black),
+                              ),
+                              SizedBox(height: 5.0),
+                              Text(
+                                'Location: ' + busStopLocation.description,
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black87),
+                              ),
+                              Text(
+                                'Street: ' + busStopLocation.roadName,
+                                style: TextStyle(
+                                    fontSize: 14.0, color: Colors.black87),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 5.0),
-                          Text(
-                            'Location: ' + busStopLocation.description,
-                            style: TextStyle(
-                                fontSize: 14.0, color: Colors.black87),
-                          ),
-                          Text(
-                            'Street: ' + busStopLocation.roadName,
-                            style: TextStyle(
-                                fontSize: 14.0, color: Colors.black87),
-                          ),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => BusStopJsonParse(
+                                          buscode: busStopLocation.code,
+                                          userLocation: widget.userLocation,
+                                          busStopLocation: LatLng(
+                                              busStopLocation.location.latitude,
+                                              busStopLocation
+                                                  .location.longitude),
+                                        )));
+                              },
+                              icon: Icon(Icons.skip_next))
                         ],
                       ),
                     ),

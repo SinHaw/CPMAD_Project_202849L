@@ -28,17 +28,22 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cloud_firestore: ^0.16.0+1
-  cupertino_icons: ^1.0.2
-  firebase_auth: ^0.20.1
-  firebase_core: ^0.7.0
-  firebase_storage: ^7.0.0
-  permission_handler: ^5.0.1+1
+  cupertino_icons: 
+  firebase_auth: 
+  firebase_core: 
+  firebase_storage: 
+  permission_handler: 
   location: ^3.2.4
-  fluttertoast: ^7.1.8
-  http: ^0.12.2
+  fluttertoast: 
+  http: 
   image_picker: ^0.6.7+22
+  geolocator: 
+  flutter_polyline_points: 
+  google_maps_flutter: 
+  flutter_svg:
   flutter:
-    sdk: flutter
+    sdk: flutter 
+  geocoding: ^1.0.5
   
   
 

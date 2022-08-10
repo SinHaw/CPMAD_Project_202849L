@@ -57,8 +57,8 @@ class _HomeState extends State<Home> {
                       userLocation = value;
                     });
                   }).catchError((e) => print('${e.error}'));
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => Profile()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Profile()));
                 },
                 child: Container(
                   decoration: new BoxDecoration(
@@ -73,7 +73,7 @@ class _HomeState extends State<Home> {
               GestureDetector(
                 onTap: () {
                   userLocation != null
-                      ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      ? Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
                               BSLJsonParse(userLocation: userLocation)))
                       : DoNothingAction();
@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
                       color: Colors.lightBlue,
                       borderRadius: new BorderRadius.all(Radius.circular(20))),
                   child: Icon(
-                    Icons.hotel,
+                    Icons.announcement,
                     size: 120,
                   ),
                 ),

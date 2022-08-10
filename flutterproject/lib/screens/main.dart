@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterproject/screens/BusStop.dart';
 import 'package:flutterproject/screens/Home.dart';
 import 'package:flutterproject/screens/Login.dart';
 import 'package:flutterproject/screens/Registration.dart';
+import 'package:flutterproject/screens/map.dart';
 import 'NearestBusStop.dart';
 
 Future<void> main() async {
