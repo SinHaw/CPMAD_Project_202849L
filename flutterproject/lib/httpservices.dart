@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterproject/model/bus.dart' as bus;
+import 'package:flutterproject/model/wtDetails.dart' as details;
+import 'package:flutterproject/model/wtSearch.dart' as wt;
 import 'package:http/http.dart' as http;
 import 'package:flutterproject/model/busStopLocation.dart';
 
@@ -40,6 +42,41 @@ class HttpService {
     } catch (e) {
       print('Error ${e.toString()}');
       return List<bus.Datum>();
+    }
+  }
+
+  static Future<List<wt.Datum>> getWalkingTrial(String keyword) async {
+    try {
+      final response = await http.get(Uri.parse(
+          'https://tih-api.stb.gov.sg/content/v1/walking-trail/search?apikey=54HJhzzqEWXL3wEnE2akYp83ZuL6WIxm&keyword=' +
+              keyword));
+      if (response.statusCode == 200) {
+        final wt.WtSearch cp = wt.wtSearchFromJson(response.body);
+        return cp.data;
+      } else {
+        return List<wt.Datum>();
+      }
+    } catch (e) {
+      print('Error ${e.toString()}');
+      return List<wt.Datum>();
+    }
+  }
+
+  static Future<List<details.Datum>> getWalkingTrialDetails(String uuid) async {
+    try {
+      final response = await http.get(Uri.parse(
+          'https://tih-api.stb.gov.sg/content/v1/walking-trail/uuid/' +
+              uuid +
+              '/detail?apikey=54HJhzzqEWXL3wEnE2akYp83ZuL6WIxm'));
+      if (response.statusCode == 200) {
+        final details.WtDetails cp = details.wtDetailsFromJson(response.body);
+        return cp.data;
+      } else {
+        return List<details.Datum>();
+      }
+    } catch (e) {
+      print('Error ${e.toString()}');
+      return List<details.Datum>();
     }
   }
 }

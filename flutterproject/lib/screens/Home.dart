@@ -1,8 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors, unnecessary_new
-
 import 'package:flutter/material.dart';
 import 'package:flutterproject/screens/NearestBusStop.dart';
 import 'package:flutterproject/screens/Profile.dart';
+import 'package:flutterproject/screens/walkingTrailSearch.dart';
 import 'package:location/location.dart';
 
 class Home extends StatefulWidget {
@@ -64,9 +64,17 @@ class _HomeState extends State<Home> {
                   decoration: new BoxDecoration(
                       color: Colors.lightBlue,
                       borderRadius: new BorderRadius.all(Radius.circular(20))),
-                  child: Icon(
-                    Icons.account_circle_rounded,
-                    size: 120,
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.account_circle_rounded,
+                        size: 120,
+                      ),
+                      Text(
+                        "Profile",
+                        style: TextStyle(fontSize: 30),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -82,9 +90,40 @@ class _HomeState extends State<Home> {
                   decoration: new BoxDecoration(
                       color: Colors.lightBlue,
                       borderRadius: new BorderRadius.all(Radius.circular(20))),
-                  child: Icon(
-                    Icons.directions_bus,
-                    size: 120,
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.directions_bus,
+                        size: 120,
+                      ),
+                      Text(
+                        "Nearby Buses",
+                        style: TextStyle(fontSize: 25),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => wtSearch()));
+                },
+                child: Container(
+                  decoration: new BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius: new BorderRadius.all(Radius.circular(20))),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.nordic_walking,
+                        size: 120,
+                      ),
+                      Text(
+                        "Walking Trail",
+                        style: TextStyle(fontSize: 30),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -93,20 +132,17 @@ class _HomeState extends State<Home> {
                   decoration: new BoxDecoration(
                       color: Colors.lightBlue,
                       borderRadius: new BorderRadius.all(Radius.circular(20))),
-                  child: Icon(
-                    Icons.shopping_bag,
-                    size: 120,
-                  ),
-                ),
-              ),
-              GestureDetector(
-                child: Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.lightBlue,
-                      borderRadius: new BorderRadius.all(Radius.circular(20))),
-                  child: Icon(
-                    Icons.announcement,
-                    size: 120,
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.announcement,
+                        size: 120,
+                      ),
+                      Text(
+                        "About",
+                        style: TextStyle(fontSize: 30),
+                      )
+                    ],
                   ),
                 ),
               ),

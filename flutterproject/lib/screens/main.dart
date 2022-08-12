@@ -6,6 +6,9 @@ import 'package:flutterproject/screens/Home.dart';
 import 'package:flutterproject/screens/Login.dart';
 import 'package:flutterproject/screens/Registration.dart';
 import 'package:flutterproject/screens/map.dart';
+import 'package:flutterproject/screens/walkingTrail.dart';
+import 'package:flutterproject/screens/walkingTrailDetails.dart';
+import 'package:flutterproject/screens/walkingTrailSearch.dart';
 import 'NearestBusStop.dart';
 
 Future<void> main() async {
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      home: Home(),
+      home: wtDetails(),
     );
   }
 }
