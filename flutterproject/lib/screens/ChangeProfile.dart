@@ -38,7 +38,9 @@ class _ChangeProfileState extends State<ChangeProfile> {
         .get()
         .then((value) {
       this.loggedInUser = userModel.fromMap(value.data());
-      setState(() {});
+      setState(() {
+        imageUrl = loggedInUser.imageUrl;
+      });
     });
   }
 
@@ -140,7 +142,6 @@ class _ChangeProfileState extends State<ChangeProfile> {
     );
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),

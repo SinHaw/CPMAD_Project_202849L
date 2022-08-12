@@ -8,7 +8,8 @@ import 'package:flutterproject/model/wtDetails.dart' as details;
 import 'package:url_launcher/url_launcher.dart';
 
 class wtDetails extends StatefulWidget {
-  wtDetails({Key key}) : super(key: key);
+  final String uuid;
+  wtDetails({Key key, this.uuid}) : super(key: key);
 
   @override
   State<wtDetails> createState() => _wtDetailsState();
@@ -31,13 +32,40 @@ class _wtDetailsState extends State<wtDetails> {
   final debouncer = Debouncer(msecond: 1000);
   List<details.Datum> _wtd;
   bool _loading;
-  String uuid = "0095956ea494bfe4cd4b66f0f7710470eac";
   String waypoint = "";
+  List<String> alphabet = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z"
+  ];
   @override
   void initState() {
     super.initState();
     _loading = true;
-    HttpService.getWalkingTrialDetails(uuid).then((wtd) {
+    HttpService.getWalkingTrialDetails(widget.uuid).then((wtd) {
       setState(() {
         _wtd = wtd;
         _loading = false;
@@ -106,6 +134,11 @@ class _wtDetailsState extends State<wtDetails> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text(
+                                    'Route: ' + alphabet[index],
+                                    style: TextStyle(
+                                        fontSize: 12.0, color: Colors.grey),
+                                  ),
                                   Text(
                                     'Address: ' +
                                         walkingTrailDetails.formattedAddress,

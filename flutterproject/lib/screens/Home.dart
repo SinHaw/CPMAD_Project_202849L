@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterproject/screens/NearestBusStop.dart';
 import 'package:flutterproject/screens/Profile.dart';
+import 'package:flutterproject/screens/about.dart';
 import 'package:flutterproject/screens/walkingTrailSearch.dart';
 import 'package:location/location.dart';
 
@@ -128,6 +129,10 @@ class _HomeState extends State<Home> {
                 ),
               ),
               GestureDetector(
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => about()));
+                },
                 child: Container(
                   decoration: new BoxDecoration(
                       color: Colors.lightBlue,

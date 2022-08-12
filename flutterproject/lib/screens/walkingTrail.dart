@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterproject/httpservices.dart';
 import 'package:flutterproject/model/wtSearch.dart';
 import 'package:flutterproject/screens/Profile.dart';
+import 'package:flutterproject/screens/walkingTrailDetails.dart';
 import 'package:html/parser.dart';
 
 class wtJsonParse extends StatefulWidget {
@@ -130,7 +131,8 @@ class _wtJsonParseState extends State<wtJsonParse> {
                           IconButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Profile()));
+                                    builder: (context) =>
+                                        wtDetails(uuid: walkingTrail.uuid)));
                               },
                               icon: Icon(Icons.double_arrow))
                         ],
