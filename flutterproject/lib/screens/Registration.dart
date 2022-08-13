@@ -271,7 +271,7 @@ class _RegistrationScreen extends State<RegistrationScreen> {
     await firebase.collection("users").doc(user.uid).set(UserModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully");
     Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => Profile()), (route) => false);
+        MaterialPageRoute(builder: (context) => Home()), (route) => false);
   }
 
   uploadImage() async {

@@ -1,26 +1,36 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:flutterproject/screens/walkingTrail.dart';
+import 'package:flutterproject/screens/routeMap.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location_platform_interface/location_platform_interface.dart';
 
-class wtSearch extends StatefulWidget {
-  wtSearch({Key key}) : super(key: key);
+class showRoute extends StatefulWidget {
+  final LocationData userLocation;
+  showRoute({Key key, this.userLocation}) : super(key: key);
 
   @override
-  State<wtSearch> createState() => _wtSearchState();
+  State<showRoute> createState() => _showRouteState();
 }
 
-class _wtSearchState extends State<wtSearch> {
+class _showRouteState extends State<showRoute> {
   final keyword = TextEditingController();
+  List<Location> locations;
   void clearText() {
     keyword.clear();
+  }
+
+  @override
+  _getLocation() async {
+    locations = await locationFromAddress(keyword.text);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Walking Trial'),
+        title: Text('Route'),
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -42,14 +52,14 @@ class _wtSearchState extends State<wtSearch> {
                   height: 50,
                 ),
                 Icon(
-                  Icons.nordic_walking,
+                  Icons.add_road,
                   size: 180,
                 ),
                 TextField(
                   controller: keyword,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Enter Keyword... eg.Food,Art,Events,Shops'),
+                      hintText: 'Enter Destination'),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -66,9 +76,15 @@ class _wtSearchState extends State<wtSearch> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                wtJsonParse(keyword: keyword.text)));
+                        _getLocation();
+                        locations != null
+                            ? Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => routeMap(
+                                      userLocation: widget.userLocation,
+                                      Destination: LatLng(locations[0].latitude,
+                                          locations[0].longitude),
+                                    )))
+                            : null;
                       },
                       child: Text("Search"),
                     ),

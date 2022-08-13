@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterproject/model/bus.dart' as bus;
+import 'package:flutterproject/model/routeDetails.dart';
 import 'package:flutterproject/model/wtDetails.dart' as details;
 import 'package:flutterproject/model/wtSearch.dart' as wt;
 import 'package:http/http.dart' as http;
@@ -77,6 +78,31 @@ class HttpService {
     } catch (e) {
       print('Error ${e.toString()}');
       return List<details.Datum>();
+    }
+  }
+
+  static Future<Data> getRouteDetails(String Olatitude, String Olongitude,
+      String Dlatitude, String Dlongitude) async {
+    try {
+      final response = await http.get(Uri.parse(
+          'https://tih-api.stb.gov.sg/map/v1.1/experiential_route/walking?origin=' +
+              Olatitude +
+              "," +
+              Olongitude +
+              '&destination=' +
+              Dlatitude +
+              "," +
+              Dlongitude +
+              '&apikey=54HJhzzqEWXL3wEnE2akYp83ZuL6WIxm'));
+      if (response.statusCode == 200) {
+        final RouteDetails cp = routeDetailsFromJson(response.body);
+        return cp.data;
+      } else {
+        return Data();
+      }
+    } catch (e) {
+      print('Error ${e.toString()}');
+      return Data();
     }
   }
 }

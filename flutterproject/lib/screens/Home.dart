@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterproject/screens/NearestBusStop.dart';
 import 'package:flutterproject/screens/Profile.dart';
 import 'package:flutterproject/screens/about.dart';
+import 'package:flutterproject/screens/routeSearch.dart';
 import 'package:flutterproject/screens/walkingTrailSearch.dart';
 import 'package:location/location.dart';
 
@@ -123,6 +124,30 @@ class _HomeState extends State<Home> {
                       Text(
                         "Walking Trail",
                         style: TextStyle(fontSize: 30),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          showRoute(userLocation: userLocation)));
+                },
+                child: Container(
+                  decoration: new BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius: new BorderRadius.all(Radius.circular(20))),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.edit_road,
+                        size: 120,
+                      ),
+                      Text(
+                        "Experential Route",
+                        style: TextStyle(fontSize: 20),
                       )
                     ],
                   ),

@@ -7,6 +7,8 @@ import 'package:flutterproject/screens/Home.dart';
 import 'package:flutterproject/screens/Login.dart';
 import 'package:flutterproject/screens/Registration.dart';
 import 'package:flutterproject/screens/map.dart';
+import 'package:flutterproject/screens/routeMap.dart';
+import 'package:flutterproject/screens/routeSearch.dart';
 import 'package:flutterproject/screens/walkingTrail.dart';
 import 'package:flutterproject/screens/walkingTrailDetails.dart';
 import 'package:flutterproject/screens/walkingTrailSearch.dart';

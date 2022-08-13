@@ -33,34 +33,7 @@ class _wtDetailsState extends State<wtDetails> {
   List<details.Datum> _wtd;
   bool _loading;
   String waypoint = "";
-  List<String> alphabet = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z"
-  ];
+  int point;
   @override
   void initState() {
     super.initState();
@@ -121,6 +94,7 @@ class _wtDetailsState extends State<wtDetails> {
                 itemCount: null == _wtd ? 0 : _wtd.length,
                 itemBuilder: (context, index) {
                   details.Datum walkingTrailDetails = _wtd[index];
+                  point = index + 1;
                   return Card(
                     child: Padding(
                       padding: EdgeInsets.all(10.0),
@@ -135,7 +109,7 @@ class _wtDetailsState extends State<wtDetails> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Route: ' + alphabet[index],
+                                    'point: ' + point.toString(),
                                     style: TextStyle(
                                         fontSize: 12.0, color: Colors.grey),
                                   ),

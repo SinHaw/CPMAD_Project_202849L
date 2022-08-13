@@ -61,6 +61,9 @@ class _aboutState extends State<about> {
                           "We Strive to give you a leisureless experience finding places to travel around in singapore",
                           style: TextStyle(fontSize: 24),
                         ),
+                        SizedBox(
+                          height: 15,
+                        ),
                         Row(
                           children: [
                             Text("Contact Us at ",
