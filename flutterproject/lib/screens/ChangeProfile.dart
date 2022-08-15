@@ -50,19 +50,6 @@ class _ChangeProfileState extends State<ChangeProfile> {
         autofocus: false,
         controller: NameEditingController,
         keyboardType: TextInputType.name,
-        validator: (value) {
-          RegExp regex = new RegExp(r'^.{3,}$');
-          if (value.isEmpty) {
-            return ("Name cannot be Empty");
-          }
-          if (!regex.hasMatch(value)) {
-            return ("Enter Valid name(Min. 3 Character)");
-          }
-          return null;
-        },
-        onSaved: (value) {
-          NameEditingController.text = value;
-        },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.account_circle),
@@ -79,10 +66,6 @@ class _ChangeProfileState extends State<ChangeProfile> {
         obscureText: true,
         keyboardType: TextInputType.visiblePassword,
         validator: (value) {
-          if (value.isEmpty) {
-            return ("Please Enter Your Password");
-          }
-          // reg expression for email validation
           if (!RegExp(r'^.{6,}$').hasMatch(value)) {
             return ("Enter Valid Password(Min. 6 Character)");
           }
@@ -134,7 +117,24 @@ class _ChangeProfileState extends State<ChangeProfile> {
             change();
           },
           child: Text(
-            "Update",
+            "Update Password",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          )),
+    );
+    final ChangeDetails = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(30),
+      color: Colors.black,
+      child: MaterialButton(
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          minWidth: MediaQuery.of(context).size.width,
+          onPressed: () {
+            updateDetails();
+          },
+          child: Text(
+            "Change Details",
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -179,6 +179,8 @@ class _ChangeProfileState extends State<ChangeProfile> {
                 confirmPasswordField,
                 SizedBox(height: 15),
                 update,
+                SizedBox(height: 15),
+                ChangeDetails,
               ]),
             ),
           ),
@@ -187,10 +189,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
 
   void change() async {
     if (_formKey.currentState.validate()) {
-      user
-          .updatePassword(passwordEditingController.text)
-          .then((updateDetails()))
-          .catchError((error) {
+      user.updatePassword(passwordEditingController.text).catchError((error) {
         Fluttertoast.showToast(msg: error.message);
       });
     }
@@ -220,10 +219,12 @@ class _ChangeProfileState extends State<ChangeProfile> {
     User user = _auth.currentUser;
     userModel UserModel = userModel();
     UserModel.email = loggedInUser.email;
-    UserModel.name = NameEditingController.text;
+    UserModel.name = NameEditingController.text.isEmpty
+        ? loggedInUser.name
+        : NameEditingController.text;
     UserModel.user_id = user.uid;
     UserModel.imageUrl = imageUrl;
-
+    print(NameEditingController.text);
     await firebase.collection("users").doc(user.uid).update(UserModel.toMap());
     Fluttertoast.showToast(msg: "Details Updated successfully");
     Navigator.pushAndRemoveUntil(context,

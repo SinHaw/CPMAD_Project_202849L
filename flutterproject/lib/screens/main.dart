@@ -19,11 +19,11 @@ bool signedInUser;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  ErrorWidget.builder = (FlutterErrorDetails details) => Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+  // ErrorWidget.builder = (FlutterErrorDetails details) => Scaffold(
+  //       body: Center(
+  //         child: CircularProgressIndicator(),
+  //       ),
+  //     );
   FirebaseAuth.instance.authStateChanges().listen((User user) {
     if (user == null) {
       print("not signed in");

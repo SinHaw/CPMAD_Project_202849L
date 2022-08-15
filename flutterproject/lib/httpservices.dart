@@ -85,7 +85,7 @@ class HttpService {
       String Dlatitude, String Dlongitude) async {
     try {
       final response = await http.get(Uri.parse(
-          'https://tih-api.stb.gov.sg/map/v1.1/experiential_route/walking?origin=' +
+          'https://tih-api.stb.gov.sg/map/v1.1/experiential_route/default?origin=' +
               Olatitude +
               "," +
               Olongitude +
@@ -103,6 +103,31 @@ class HttpService {
     } catch (e) {
       print('Error ${e.toString()}');
       return Data();
+    }
+  }
+
+  static Future<List<dynamic>> getRoutePois(String Olatitude, String Olongitude,
+      String Dlatitude, String Dlongitude) async {
+    try {
+      final response = await http.get(Uri.parse(
+          'https://tih-api.stb.gov.sg/map/v1.1/experiential_route/default?origin=' +
+              Olatitude +
+              "," +
+              Olongitude +
+              '&destination=' +
+              Dlatitude +
+              "," +
+              Dlongitude +
+              '&apikey=54HJhzzqEWXL3wEnE2akYp83ZuL6WIxm'));
+      if (response.statusCode == 200) {
+        final RouteDetails cp = routeDetailsFromJson(response.body);
+        return cp.pois;
+      } else {
+        return List<dynamic>();
+      }
+    } catch (e) {
+      print('Error ${e.toString()}');
+      return List<dynamic>();
     }
   }
 }

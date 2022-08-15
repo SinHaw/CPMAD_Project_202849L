@@ -59,14 +59,16 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     CameraPosition _currentPos = CameraPosition(
       bearing: 0.0, //compass direction – 90 degree orients east up
-      target: LatLng(currentlocation.latitude, currentlocation.longitude),
+      target: currentlocation != null
+          ? LatLng(currentlocation.latitude, currentlocation.longitude)
+          : LatLng(1.4459, 103.7685),
       tilt: 0.0, //title angle – 60 degree looks ahead towards the horizon
       zoom: 20, //zoom level – a middle value of 11 shows city-level
     );
     return Scaffold(
       appBar: AppBar(),
       body: currentlocation == null
-          ? Center(child: Text("loading"))
+          ? Center(child: CircularProgressIndicator())
           : GoogleMap(
               polylines: {
                 Polyline(
