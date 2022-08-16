@@ -47,134 +47,159 @@ class _HomeState extends State<Home> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: GridView.count(
-            mainAxisSpacing: 15,
-            crossAxisSpacing: 15,
-            crossAxisCount: 2,
+          child: ListView(
             children: [
-              GestureDetector(
-                onTap: () {
-                  _getLocation().then((value) {
-                    setState(() {
-                      userLocation = value;
-                    });
-                  }).catchError((e) => print('${e.error}'));
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Profile()));
-                },
-                child: Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.lightBlue,
-                      borderRadius: new BorderRadius.all(Radius.circular(20))),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.account_circle_rounded,
-                        size: 120,
-                      ),
-                      Text(
-                        "Profile",
-                        style: TextStyle(fontSize: 30),
-                      )
-                    ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            showRoute(userLocation: userLocation)));
+                  },
+                  child: Container(
+                    decoration: new BoxDecoration(
+                        color: Colors.lightBlue,
+                        borderRadius:
+                            new BorderRadius.all(Radius.circular(20))),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.edit_road,
+                          size: 120,
+                        ),
+                        Text(
+                          "Experential Route",
+                          style: TextStyle(fontSize: 20),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  userLocation != null
-                      ? Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              BSLJsonParse(userLocation: userLocation)))
-                      : DoNothingAction();
-                },
-                child: Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.lightBlue,
-                      borderRadius: new BorderRadius.all(Radius.circular(20))),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.directions_bus,
-                        size: 120,
-                      ),
-                      Text(
-                        "Nearby Buses",
-                        style: TextStyle(fontSize: 25),
-                      )
-                    ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    userLocation != null
+                        ? Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                BSLJsonParse(userLocation: userLocation)))
+                        : DoNothingAction();
+                  },
+                  child: Container(
+                    decoration: new BoxDecoration(
+                        color: Colors.lightBlue,
+                        borderRadius:
+                            new BorderRadius.all(Radius.circular(20))),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.directions_bus,
+                          size: 120,
+                        ),
+                        Text(
+                          "Nearby Buses",
+                          style: TextStyle(fontSize: 25),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => wtSearch()));
-                },
-                child: Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.lightBlue,
-                      borderRadius: new BorderRadius.all(Radius.circular(20))),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.nordic_walking,
-                        size: 120,
-                      ),
-                      Text(
-                        "Walking Trail",
-                        style: TextStyle(fontSize: 30),
-                      )
-                    ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => wtSearch()));
+                  },
+                  child: Container(
+                    decoration: new BoxDecoration(
+                        color: Colors.lightBlue,
+                        borderRadius:
+                            new BorderRadius.all(Radius.circular(20))),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.nordic_walking,
+                          size: 120,
+                        ),
+                        Text(
+                          "Walking Trail",
+                          style: TextStyle(fontSize: 30),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          showRoute(userLocation: userLocation)));
-                },
-                child: Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.lightBlue,
-                      borderRadius: new BorderRadius.all(Radius.circular(20))),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.edit_road,
-                        size: 120,
+              GridView.count(
+                shrinkWrap: true,
+                crossAxisSpacing: 1,
+                mainAxisSpacing: 2,
+                crossAxisCount: 2,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _getLocation().then((value) {
+                          setState(() {
+                            userLocation = value;
+                          });
+                        }).catchError((e) => print('${e.error}'));
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => Profile()));
+                      },
+                      child: Container(
+                        decoration: new BoxDecoration(
+                            color: Colors.lightBlue,
+                            borderRadius:
+                                new BorderRadius.all(Radius.circular(20))),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.account_circle_rounded,
+                              size: 120,
+                            ),
+                            Text(
+                              "Profile",
+                              style: TextStyle(fontSize: 30),
+                            )
+                          ],
+                        ),
                       ),
-                      Text(
-                        "Experential Route",
-                        style: TextStyle(fontSize: 20),
-                      )
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => about()));
-                },
-                child: Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.lightBlue,
-                      borderRadius: new BorderRadius.all(Radius.circular(20))),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.announcement,
-                        size: 120,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => about()));
+                      },
+                      child: Container(
+                        decoration: new BoxDecoration(
+                            color: Colors.lightBlue,
+                            borderRadius:
+                                new BorderRadius.all(Radius.circular(20))),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.announcement,
+                              size: 120,
+                            ),
+                            Text(
+                              "About",
+                              style: TextStyle(fontSize: 30),
+                            )
+                          ],
+                        ),
                       ),
-                      Text(
-                        "About",
-                        style: TextStyle(fontSize: 30),
-                      )
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
