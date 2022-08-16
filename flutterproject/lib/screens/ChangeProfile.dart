@@ -189,7 +189,13 @@ class _ChangeProfileState extends State<ChangeProfile> {
 
   void change() async {
     if (_formKey.currentState.validate()) {
-      user.updatePassword(passwordEditingController.text).catchError((error) {
+      user
+          .updatePassword(passwordEditingController.text)
+          .then((value) => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+              (route) => false))
+          .catchError((error) {
         Fluttertoast.showToast(msg: error.message);
       });
     }
