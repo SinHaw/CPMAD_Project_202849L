@@ -14,3 +14,15 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+//api used 
+busStopByLocation-https://tih-api.stb.gov.sg/transport/v1/bus_stop
+
+busArrivalByBusStop-https://tih-api.stb.gov.sg/transport/v1/bus_arrival/bus_stop/{bus_stop}
+
+experientialRouteByMode-https://tih-api.stb.gov.sg/map/v1.1/experiential_route/{mode}
+
+searchWalkingTrailByKeyword-https://tih-api.stb.gov.sg/content/v1/walking-trail/search
+
+getWalkingTrailByUuids-https://tih-api.stb.gov.sg/content/v1/walking-trail
